@@ -1,0 +1,410 @@
+PROGRAM StudentManagementSystem
+	choice (Integer)
+	DECLARE Scanner sc
+	Max_stud = 1000 (Integer)
+	DECLARE studentArr (Student) WITH Max_stud
+	Count = 0 (Integer)
+	filename = "data.csv" (String)
+	
+	MAIN:
+		CALL getStudentData(filename)
+		CALL MainMenu();
+	
+	ENDMAIN
+	
+	METHOD: MainMenu
+	IMPORT: none
+	EXPORT: none
+	ASSERTION: gets option and call respective functions
+	ALGORITHM:
+		CALL Menu()
+		ASK USER FOR INPUT choice
+		CASE choice
+			1: CALL addNewStudent()
+			2: CALL editStudentInfo()
+			3: CALL viewStudents()
+			4: CALL highestCWA()
+			5: CALL avgCWA()
+			6: CALL creditAnalysis()
+			7: CALL saveStudentData(filename)
+			DEFAULT: OUTPUT prompt
+		ENDCASE
+	ENDMETHOD
+	
+	METHOD: Menu
+	IMPORT: none
+	EXPORT: none
+	ASSERTION: Outputs all the choices
+	ALGORITHM: 
+		OUTPUT 
+		1. Add New Student
+		2. Edit Student Details
+		3. View Students
+		4. Highest CWA
+		5. Average CWA
+		6. Credit Analysis
+		7. Exit the program
+	ENDMETHOD
+	
+	METHOD: addNewStudent
+	IMPORT: none
+	EXPORT: none
+	ASSERTION: to add new students
+	ALGORITHM:
+		firstname (String) = getInputString()
+		lastname (String) = getInputString()
+		studentID (Integer) = getInputInt()
+		citizenship (String) = getInputCitizenship()
+		course (String) = getInputString()
+		year (Integer) = getInputInt()
+		cwa (Double) = getInputDouble()
+		status (String) = getInputStatus()
+		credits (Integer) = getInputInt()
+		
+		Create Obj For Details and Student and pass the values
+		studentArr[Count] = Student obj
+		Count INCREMENTS BY 1
+		OUTPUT toString FROM Student
+		full = getInputBoolean()
+	ENDMETHOD
+	
+	METHOD: editStudentInfo
+	IMPORT: none
+	EXPORT: none
+	ASSERTION: to edit student in csv file
+	ALGORITHM:
+		CHECK IF the csv file is full
+		DECLARE findID 
+		ASK USER TO INPUT studentID TO BE edited
+		CHECK IF THE StudentID EXISTs OR NOT
+		
+		IF FOUND then OUTPUT Details of that student
+		DISPLAY he choices for editing
+		DO
+			ASK USER TO INPUT option
+			CASE option
+				1: edit Course
+				2: edit year level
+				3: edit cwa
+				4: edit status
+				5: edit credits
+				6: exit
+				DEFAULT: OUTPUT prompt
+			ENDCASE
+		WHILE (option IS NOT EQUALS TO 6)
+	ENDMETHOD
+	
+	METHOD: viewStudents()
+	IMPORT: none
+	EXPORT: none
+	ASSERTION: to view student - view all students, filter by course, filter by status, filter by citizenship
+	ALGORITHM:
+		CHECK IF there are students in the file
+		DISPLAY the choices
+		DECLARE viewOption (Integer)
+		DO
+			ASK FOR USER INPUT FOR viewOption
+			CASE viewOption
+				1: viewAllStudents()
+				2: filterCourse()
+				3:filterStatus()
+				4:filterCitizenship()
+				5: exit to Main Menu
+				DEFAULT: OUTPUT prompt
+			ENDCASE
+		WHILE(viewOption IS NOT EQUALS TO 5)
+	ENDMETHOD
+	
+	METHOD: viewAllStudents
+	IMPORT: none
+	EXPORT: none
+	ASSERTION: shows all the students in the file
+	ALGORITHM:
+		FOR index=0 TO Count CHNGE BY 1
+			OUTPUT Student data by toString Student by GOING THROUGH ARRAY
+		ENDFOR
+	ENDMETHOD
+	
+	METHOD: filterCourse
+	IMPORT: none
+	EXPORT: none
+	ASSERTION: shows students from entered course
+	ALGORITHM:
+		ASK USER FOR INPUT fCourse
+		DECLARE flag = false
+		FOR index=0 TO Count INCREMENT BY 1
+			IF studentArr[i].gtDetail().getCourseEnrolled() EQUALS fcourse
+				THEN DISPLAY IT
+				flag = true
+			ENDIF
+		ENDFOR
+		IF flag IS FALSE
+			THEN DISPLA prompt
+		ENDIF
+	ENDMETHOD
+	
+	METHOD: filterStatus
+	IMPORT: none
+	EXPORT: none
+	ASSERTION: shows students with entered status
+	ALGORITHM:
+		ASK USER INPUT FOR fStatus
+		DECLARE flag = false
+		FOR index=0 TO Count INCREMENT 1
+			if studentArr[i].getDetail().getStatus() EQUALS fStatus
+				THEN DISPLAY IT
+				flag = true
+			ENDIF
+		ENDFOR
+		IF flag IS FALSE
+			THEN DISPLAY prompt
+		ENDIF
+	ENDMETHOD
+	
+	
+	METHOD: filterCitizenship
+	IMPORT: none
+	EXPORT: none
+	ASSERTION: shows students with entered citizenship
+	ALGORITHM:
+		ASK USER INPUT FOR fCitizen
+		DECLARE flag = false
+		FOR index=0 TO Count INCREMENT 1
+			if studentArr[i].getCitizenship() EQUALS fCitizen
+				THEN DISPLAY IT
+				flag = true
+			ENDIF
+		ENDFOR
+		IF flag IS FALSE
+			THEN DISPLAY prompt
+		ENDIF
+	ENDMETHOD
+	
+	METHOD: avgCWA
+	IMPORT: none
+	EXPORT: none
+	ASSERTION: shows te average CWA of the course entered
+	ALGORITHM:	
+		CHECK IF the file has any students
+		ASK USER TO INPUT courseCWA
+		DECLARE ARRAY matchCWA[Max_stud] 
+		DECLARE cwaCount =0
+		FOR index=0 TO Count INCREMENT BY 1
+			IF studentArr[i].getDetail().getCourse EQUALS courseCWA
+				THEN matchCWA[cwaCount] = studentArr[i].getDetail().getCourse() 
+				cwaCount INCREMENTS BY 1
+			ENDIF
+		ENDFOR
+		IF (cwaCount > 0)
+			THEN DECLARE sum=0.0
+			FOR index=0 TO cwaCount INCREMENT BY 1
+				sum = sum + matchCWA[i]
+			ENDFOR
+		ENDIF
+		DECLARE avg = sum/cwaCount
+		OUTPUT avg
+		
+	ENDMETHOD
+	
+	METHOD: highestCWA
+	IMPORT: none
+	EXPORT: none
+	ASSERTION: shows the highest CWA among all the students
+	ALGORITHM:	
+		CHECK IF the file has any students
+		DECLARE maxCWA = 0.0
+		FOR index=0 TO Count INCREMENT BY 1
+			currentCwa = studentArr[i].getDetail().getCwa()
+			IF currentCwa > maxCWA 
+				THEN maxCWA = currentCwa
+			ENDIF
+		ENDFOR
+		OUTPUT STUDENT with highest CWA FROM Array
+		FOR index=0 TO Count INCREMENT BY 1
+			IF studentArr[i].getDetail().getCwa() == maxCWA
+				THEN OUTPUT Deails of the Student
+			ENDIF
+		ENDFOR
+	ENDMETHOD
+	
+	METHOD: creditAnalysis
+	IMPORT: none
+	EXPORT: none
+	ASSERTION: checks if Credits is 400+ then you can graduate
+	ALGORITHM:	
+		CHECK IF the file has any students
+		DECLARE flag = false
+		FOR index=0 TO Count INCREMENT BY 1
+			IF studentArr[i].getDetail().getCreditsEarned() >= 400
+				THEN OUTPUT details of the student
+				flg = true
+			ENDIF
+		ENDFOR
+		IF flag IS FALSE
+			THEN OUTPUT prompt
+		ENDIF
+		
+	ENDMETHOD
+	
+	METHOD: getStudentData
+	IMPORT: filename (String)
+	EXPORT: none
+	ASSERTION: reads the data from the csv files
+	ALGORITHM:
+		READ line FROM filename
+		TRY
+			WHILE filename IS NOT AT THE END OF FILE AND Count<Max_stud
+				DECLARE Array parts = line.split(",")
+				
+				IF (part.length == 9)
+					THEN 
+					firstname = parts[0]
+					lastname = parts[1]
+					studentID = Integer.parseInt(parts[2])
+					citizenship = parts[3]
+					courseEnrolled = parts[4]
+					yearLevel = Integer.parseInt(parts[5])
+					cwa = Double.parseDouble(parts[6])
+					status = parts[7]
+					credits = Integer.parseInt(parts[8]);
+				ELSE
+					OUTPUT Invalid Error
+				ENDIF
+			READ NEXT LINE
+		CATCH (FIleNotFoundEXception e)
+		CATCH (IOException e)	
+	ENDMETHOD
+	
+	METHOD: saveStudentData
+	IMPORT: filename (String)
+	EXPORT: none
+	ASSERTION: saves the data into the csv files
+	ALGORITHM:
+		TRY
+			WRITE "FirstName,LastName,StudentID,Citizenship,CourseEnrolled,YearLevel,CWA,Status,CreditsEarned"
+			FOR index=0 TO Count INCREMENT BY 1
+				WRITE (studentArr[i].toFileString()) TO FILE
+				CLOSE WRITER
+			ENDFOR
+		CATCH (IOException e)
+		
+	METHOD:getInputInt
+	IMPORT: statement (String), Min(Integer), Max (Integer)
+	EXPORT: none
+	ASSERTION: receives integer input from user
+	ALGORITHM: 
+		WHILE (true)
+			OUTPUT statement
+			DECLARE input(String)
+			ASK USER TO INPUT input
+			TRY
+				DECLARE num(Integer)
+				IF (num >= Min AND num <=Max)
+					RETURN num
+				ELSE
+					OUTPUT prompt
+				ENDIF
+			CATCH (IllegalArgumentException e)
+		ENDWHILE
+	ENDMETHOD
+	
+	METHOD:getInputString
+	IMPORT: statement (String)
+	EXPORT: none
+	ASSERTION: receives string input from user
+	ALGORITHM: 
+		WHILE (true)
+			OUTPUT statement
+			DECLARE input
+			ASK USER TO INPUT input
+			IF (input IS EMPTY)
+				THEN "Please re-enter"
+			ELSE
+				RETURN input
+			ENDIF
+		ENDWHILE
+	ENDMETHOD
+	
+	METHOD:getInputDouble
+	IMPORT: statement (String), Min(Double), Max (Double)
+	EXPORT: none
+	ASSERTION: receives double input from user
+	ALGORITHM: 
+		WHILE (true)
+			OUTPUT statement
+			DECLARE input (String)
+			ASK USER TO INPUT input
+			TRY
+				DECLARE num(Double) 
+				IF (num >= Min AND num <=Max)
+					RETURN num
+				ELSE
+					OUTPUT prompt
+				ENDIF
+			CATCH (IllegalArgumentException e)
+		ENDWHILE
+	ENDMETHOD
+	
+	METHOD:getInputStatus
+	IMPORT: statement (String)
+	EXPORT: none
+	ASSERTION: receives status input from user
+	ALGORITHM: 
+		DECLARE int = getInputInt()
+	
+		IF (choice == 1)
+			RETURN "FT"
+		ELSE
+			RETURN "PT"
+		ENDIF
+	ENDMETHOD	
+			
+	METHOD:getInputCitizenship
+	IMPORT: statement (String)
+	EXPORT: none
+	ASSERTION: receives citizen input from user
+	ALGORITHM: 
+		DECLARE cchoice = getInputInt()
+	
+		IF (choice == 1)
+			RETURN "Local"
+		ELSE
+			RETURN "International"
+		ENDIF
+	ENDMETHOD	
+		
+	METHOD:getInputBoolean
+	IMPORT: statement (String)
+	EXPORT: none
+	ASSERTION: receives status input from user
+	ALGORITHM: 
+		WHILE (true)
+		DECLARE choice
+		ASK USER FOR INPUT choice
+		IF (choice == y OR Y)
+			RETURN true
+		ELSE IF (choice == n OR N)
+			RETURN false
+		ELSE
+			OUTPUT prompt
+		ENDIF
+	ENDMETHOD			
+			
+			
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+			

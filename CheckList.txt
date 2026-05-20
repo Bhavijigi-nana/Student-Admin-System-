@@ -1,0 +1,10 @@
+CheckList:
+
+1. Add New Student - it works well and saves data to the csv file
+2. Editstudent - it works well too and saves the updated details in the csv file
+3. View All Student option - works well too 
+4. Highest cwa - works well
+5. Average cwa - works well
+6. Credit analysis works well
+
+

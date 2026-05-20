@@ -1,0 +1,157 @@
+CLASS Student
+	CLASS FIELDS:
+	
+		firstname (String)
+		lastname (String)
+		studentID (Integer)
+		citizen (String)
+		details (Details)
+	
+	DEFAULT CONSTRUCTORS
+	IMPORT: None
+	EXPORT: None
+	ASSERTION: creates object
+	ALGORITHM:
+		firstname = "Bhavisha"
+		lastname = "Gaikwad"
+		studentID = 23628812
+		citizen = "International"
+		details = Details()
+
+	CONSTRUCTOR W/ PARAMETERS
+	IMPORT: pFirstnameString), pLastname(String), pstudentID(Integer), pCitizen(String), pDetail(Details)
+	EXPORT: None
+	ASSERTION: creates object with imported values
+	ALGORITHM:
+		setFirstName()
+		setLastName()
+		setStudentID()
+		setCitizenship()
+		setDetail()
+		
+	COPY CONSTRUCTOR
+	IMPORT: pStudents (Student)
+	EXPORT: None
+	ASSERTION: Creates copy of the imported object
+		firstname = pStudents.getFirstName()
+		lastname = pStudents.getLastName()
+		studentID = pStudents.getStudentID()
+		citizen = pStudents.getCitizenship()
+		details = Details(pStudents.getDetail())
+		
+	MUTATORS: setFirstName
+	IMPORT: pFirstname(String)
+	EXPORT: None
+	ASSERTION: state is updated to pFirstname after validation
+	ALGORITHM:
+		IF (pFirstname IS NULL OR pFirstname IS EMPTY)
+			THEN THROW ERROR
+		ELSE 
+			firstname = pFirstname
+		ENDIF
+	
+	MUTATORS: setLastName
+	IMPORT: pLastname (String)
+	EXPORT: None
+	ASSERTION: state is updated to pLastname after validation
+	ALGORITHM:
+		IF (pLastname IS NULL OR pLastname IS EMPTY)
+			THEN THROW ERROR
+		ELSE 
+			lastname = pLastname
+		ENDIF
+		
+	MUTATORS: setStudentID
+	IMPORT: pStudentID (Integer)
+	EXPORT: None
+	ASSERTION: state is updated to pStudentID after validation
+	ALGORITHM:
+		IF (pStudentID < 10000000 OR pStudentID > 99999999)
+			THEN THROW ERROR
+		ELSE 
+			studentID = pStudentID
+		ENDIF
+		
+	MUTATORS: setCitizenship
+	IMPORT: pCitizen(String)
+	EXPORT: None
+	ASSERTION: state is updated to pCitizen after validation
+	ALGORITHM:
+		IF (pCitizen IS NULL OR pCitizen EQUALS TO "International" OR "Local")
+			THEN THROW ERROR
+		ELSE 
+			citizen = pCitizen
+		ENDIF
+	
+	MUTATORS: setDetail
+	IMPORT: pdetails (Details)
+	EXPORT: None
+	ASSERTION: state is updated to everything in pdetails after validation
+	ALGORITHM:
+		details = pdetails
+		
+	ACCESSOR: getFirstName
+	IMPORT: None
+	EXPORT: firstname(String)
+	ASSERTION: returns the value
+	ALGORITHM:
+		RETURN COPY of firstname
+		
+	ACCESSOR: getLastName
+	IMPORT: None
+	EXPORT: lastname(String)
+	ASSERTION: returns the value
+	ALGORITHM:
+		RETURN COPY of lastname
+		
+	ACCESSOR: getStudentID
+	IMPORT: None
+	EXPORT: studentID (Integer)
+	ASSERTION: returns the value
+	ALGORITHM:
+		RETURN COPY of studentID
+		
+	ACCESSOR: getCitizenship
+	IMPORT: None
+	EXPORT: citizen (String)
+	ASSERTION: returns the value
+	ALGORITHM:
+		RETURN COPY of citizen
+		
+	ACCESSOR: getDetail
+	IMPORT: None
+	EXPORT: details(Details)
+	ASSERTION: returns the value
+	ALGORITHM:
+		RETURN COPY of details
+		
+	METHOD: toString
+	IMPORT: none
+	EXPORT: studentDetailString
+	ASSERTION: returns string of the values 
+	ALGORITHM: 
+		studentDetailString = "\nFirst Name:  " + firstname + "\nLast Name: " + lastname + "\nStudent ID: " + studentID + "\nCitizenship: " + citizen + details.toString()
+		
+	METHOD: toFileString
+	IMPORT: None
+	EXPORT: studentDetailString
+	ASSERTION: String of values for the csv file
+	ALGORITHM: 
+		 studentDetailString = firstname + "," + lastname + "," + studentID + "," + citizen + "," + details.toFileString()
+		 
+	METHOD: equals
+	IMPORT: inObj(Object)
+	EXPORT: equal
+	ASSERTION: checks if both objects are equal
+	ALGORITHM: 
+		IF inObj IS Student 
+		THEN TRANSFORM inObj TO Student NAMED inStudent
+			IF firstname EQUALS inStudent.getFirstName 
+			THEN IF lastname EQUALS inStudent.getLastName
+				THEN IF studentID EQUALS inStudent.getStudentID
+					THEN IF citizen EQUALS inStudent.getCitizenship
+					equal = true
+					
+			
+	
+		

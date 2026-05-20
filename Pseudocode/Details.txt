@@ -1,0 +1,162 @@
+CLASS Details
+	CLASS FIELDS:
+	
+	courseEnrolled (String)
+	yearLevel (Integer)
+	cwa (Double)
+	status (String)
+	creditsEarned (Integer)
+	
+	DEFAULT CONSTRUCTORS
+	IMPORT: None
+	EXPORT: None
+	ASSERTION: creates object
+	ALGORITHM:
+		courseEnrolled = "Unknown"
+		yearLevel = 1
+		cwa = 0.0
+		status = "FT"
+		creditsEarned = 0
+
+	CONSTRUCTOR W/ PARAMETERS
+	IMPORT: pCourse(String), pYear(Integer), pCwa(Double), pStatus(String), pCredits(Integer)
+	EXPORT: None
+	ASSERTION: creates object with imported values
+	ALGORITHM:
+		setCourseEnrolled()
+		setYearLevel()
+		setCwa()
+		setStatus()
+		setCreditsEarned()
+		
+	COPY CONSTRUCTOR
+	IMPORT: pDetails(Details)
+	EXPORT: None
+	ASSERTION: Creates copy of the imported object
+		courseEnrolled = pDetails.getCourseEnrolled()
+		yearLevel = pDetails.getYearLevel()
+		cwa = pDetails.getCwa()
+		status = pDetails.getStatus()
+		creditsEarned = pDetails.getCreditsEarned()
+		
+	MUTATORS: setCourseEnrolled
+	IMPORT: pCourse(String)
+	EXPORT: None
+	ASSERTION: state is updated to pCourse after validation
+	ALGORITHM:
+		IF (pCourse IS NULL OR pCourse IS EMPTY)
+			THEN THROW ERROR
+		ELSE 
+			courseEnrolled = pCourse
+		ENDIF
+	
+	MUTATORS: setYearLevel
+	IMPORT: pYear(Integer)
+	EXPORT: None
+	ASSERTION: state is updated to pYear after validation
+	ALGORITHM:
+		IF (pYear <1 || pYear >4)
+			THEN THROW ERROR
+		ELSE 
+			yearLevel = pYear
+		ENDIF
+		
+	MUTATORS: setCwa
+	IMPORT: pCwa(Double)
+	EXPORT: None
+	ASSERTION: state is updated to pCwa after validation
+	ALGORITHM:
+		IF (pCwa < 0.0 OR pCwa > 100.0)
+			THEN THROW ERROR
+		ELSE 
+			cwa = pCwa
+		ENDIF
+		
+	MUTATORS: setStatus
+	IMPORT: pStatus(String)
+	EXPORT: None
+	ASSERTION: state is updated to pStatus after validation
+	ALGORITHM:
+		IF (pStatus IS NULL OR pCourse EQUALS TO "FT" OR "PT")
+			THEN THROW ERROR
+		ELSE 
+			status = pStatus
+		ENDIF
+	
+	MUTATORS: setCreditsEarned
+	IMPORT: pCredits(Integer)
+	EXPORT: None
+	ASSERTION: state is updated to pCredits after validation
+	ALGORITHM:
+		IF (pCredits < 0 OR pCredits > 600)
+			THEN THROW ERROR
+		ELSE 
+			creditsEarned = pCredits
+		ENDIF
+		
+	ACCESSOR: getCourseEnrolled
+	IMPORT: None
+	EXPORT: courseEnrolled(String)
+	ASSERTION: returns the value
+	ALGORITHM:
+		RETURN COPY of courseEnrolled
+		
+	ACCESSOR: getYearLevel
+	IMPORT: None
+	EXPORT: yearLevel(Integer)
+	ASSERTION: returns the value
+	ALGORITHM:
+		RETURN COPY of yearLevel
+		
+	ACCESSOR: getCwa
+	IMPORT: None
+	EXPORT: cwa(Double)
+	ASSERTION: returns the value
+	ALGORITHM:
+		RETURN COPY of cwa
+		
+	ACCESSOR: getStatus
+	IMPORT: None
+	EXPORT: status(String)
+	ASSERTION: returns the value
+	ALGORITHM:
+		RETURN COPY of status
+		
+	ACCESSOR: getCreditsEarned
+	IMPORT: None
+	EXPORT: creditsEarned(Integer)
+	ASSERTION: returns the value
+	ALGORITHM:
+		RETURN COPY of creditsEarned
+		
+	METHOD: toString
+	IMPORT: none
+	EXPORT: detailString
+	ASSERTION: returns string of the values 
+	ALGORITHM: 
+		detailString = courseEnrolled + "," + yearLevel + "," + cwa + "," + status + "," + creditsEarned
+		
+	METHOD: toFileString
+	IMPORT: None
+	EXPORT: detailString
+	ASSERTION: String of values for the csv file
+	ALGORITHM: 
+		 detailString = courseEnrolled + "," + yearLevel + "," + cwa + "," + status + "," + creditsEarned
+		 
+	METHOD: equals
+	IMPORT: inObj(Object)
+	EXPORT: equal
+	ASSERTION: checks if both objects are equal
+	ALGORITHM: 
+		IF inObj IS Details 
+		THEN TRANSFORM inObj TO Details NAMED inDetails
+			IF courseEnrolled EQUALS inDetails.getCourseEnrolled 
+			THEN IF yearLevel EQUALS inDetails.getYearLevel 
+				THEN IF cwa EQUALS inDetails.getCwa
+					THEN IF status EQUALS inDetails.getStatus
+					THEN IF creditsEarned EQUALS inDetails.getCreditsEarned
+					equal = true
+					
+			
+	
+		
